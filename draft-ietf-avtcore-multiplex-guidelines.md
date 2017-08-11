@@ -17,7 +17,7 @@ pi:
 title: Guidelines for using the Multiplexing Features of RTP to Support Multiple Media
   Streams
 abbrev: Guidelines for Multiplexing in RTP
-date: 2014-10-08
+date: {DATE}
 author:
 - ins: M. Westerlund
   name: Magnus Westerlund
