@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-avtcore-multiplex-guidelines-03
+docname: draft-ietf-avtcore-multiplex-guidelines-latest
 cat: info
 pi:
   toc: 'yes'
