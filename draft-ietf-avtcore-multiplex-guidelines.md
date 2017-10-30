@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-avtcore-multiplex-guidelines-04
+docname: draft-ietf-avtcore-multiplex-guidelines-05
 cat: info
 pi:
   toc: 'yes'
@@ -110,7 +110,7 @@ informative:
     - ins: D. Tennenhouse
     date: 1990-09
     seriesinfo:
-      SIGCOMM Symposium on         Communications Architectures and Protocols: "(Philadelphia,
+      SIGCOMM Symposium on Communications Architectures and Protocols: "(Philadelphia,
         Pennsylvania), pp. 200--208, IEEE Computer Communications Review, Vol. 20(4)"
 
 --- abstract
@@ -334,7 +334,7 @@ participants, then those participants are in a single RTP session. A
 participant can become aware of a synchronisation source identifier by
 receiving an RTP packet containing it in the SSRC field or CSRC list,
 by receiving an RTCP packet mentioning it in an SSRC field, or through
-signalling (e.g., the SDP "a=ssrc:" attribute). Thus, the scope of an
+signalling (e.g., the SDP \"a=ssrc:\" attribute). Thus, the scope of an
 RTP session is determined by the participants\' network interconnection
 topology, in combination with RTP and RTCP forwarding strategies
 deployed by the endpoints and any middleboxes, and by the
@@ -351,9 +351,9 @@ different contexts. For example, when running RTP on top of UDP/IP, an
 RTP endpoint can identify and delimit an RTP Session from other RTP
 Sessions using the UDP source and destination IP addresses and UDP
 port numbers. Another example is when using SDP grouping framework
-{{RFC5888}} which uses an identifier per "m="-line; if
-there is a one-to-one mapping between "m="-lines and RTP sessions,
-that grouping framework identifier will identify an RTP Session. {{I-D.ietf-mmusic-sdp-bundle-negotiation}} extends the "m-"-line for bundled media, which adds complexity to demultiplexing media stream. Section 10.2 of {{I-D.ietf-mmusic-sdp-bundle-negotiation}} provides information about how RTP/RTCP streams are associated with SDP media description.
+{{RFC5888}} which uses an identifier per \"m=\"-line; if
+there is a one-to-one mapping between \"m=\"-lines and RTP sessions,
+that grouping framework identifier will identify an RTP Session. {{I-D.ietf-mmusic-sdp-bundle-negotiation}} extends the \"m-\"-line for bundled media, which adds complexity to demultiplexing media stream. Section 10.2 of {{I-D.ietf-mmusic-sdp-bundle-negotiation}} provides information about how RTP/RTCP streams are associated with SDP media description.
 
 RTP sessions are globally unique, but their identity can only be
 determined by the communication context at an endpoint of the session,
@@ -382,7 +382,7 @@ source or sink.
 The synchronisation Source identifier is a 32-bit unsigned integer.
 It is present in every RTP and RTCP packet header, and in the payload
 of some RTCP packet types. It can also be present in SDP signalling.
-Unless pre-signalled using the SDP "a=ssrc:" attribute {{RFC5576}},
+Unless pre-signalled using the SDP \"a=ssrc:\" attribute {{RFC5576}},
 the synchronisation source identifier is chosen at
 random. It is not dependent on the network address of the endpoint,
 and is intended to be unique within an RTP session. Synchronisation
@@ -419,7 +419,7 @@ An SSRC identifier is used by different type of sources as well as
 sinks:
 
 Real Media Source:
-: Connected to a "physical" media
+: Connected to a \"physical\" media
   source, for example a camera or microphone.
 
 
@@ -486,9 +486,9 @@ The combination therefore identifies a specific Media Stream encoding
 format. The format definition can be taken from {{RFC3551}} for
 statically allocated payload types, but ought
 to be explicitly defined in signalling, such as SDP, both for static
-and dynamic Payload Types. The term "format" here includes whatever
+and dynamic Payload Types. The term \"format\" here includes whatever
 can be described by out-of-band signalling means. In SDP, the term
-"format" includes media type, RTP timestamp sampling rate, codec,
+\"format\" includes media type, RTP timestamp sampling rate, codec,
 codec configuration, payload format configurations, and various
 robustness mechanisms such as [redundant encodings](#RFC2198).
 
@@ -518,9 +518,9 @@ rendering context can be defined by the signalling, and the RTP
 payload type number is sometimes used to associate an RTP media stream
 with the signalling. This association is possible provided unique RTP
 payload type numbers are used in each context. For example, an RTP
-media stream can be associated with an SDP "m=" line by comparing the
+media stream can be associated with an SDP \"m=\" line by comparing the
 RTP payload type numbers used by the media stream with payload types
-signalled in the "a=rtpmap:" lines in the media sections of the SDP.
+signalled in the \"a=rtpmap:\" lines in the media sections of the SDP.
 If RTP media streams are being associated with signalling contexts
 based on the RTP payload type, then the assignment of RTP payload type
 numbers needs to be unique across signalling contexts; if the same RTP
@@ -609,7 +609,7 @@ RFC 3550 contains some recommendations and a bullet list with 5
 arguments for different aspects of RTP multiplexing. Let\'s review
 Section 5.2 of {{RFC3550}}, reproduced below:
 
-"For efficient protocol processing, the number of multiplexing
+\"For efficient protocol processing, the number of multiplexing
 points should be minimised, as described in the
 [integrated layer processing design principle](#ALF). In
 RTP, multiplexing is provided by the destination transport address
@@ -662,7 +662,7 @@ an RTP mixer can combine multiple audio sources, for example, and
 the same treatment is applicable for all of them. It might also be
 appropriate to multiplex streams of the same medium using different
 SSRC values in other scenarios where the last two problems do not
-apply."
+apply.\"
 
 Let\'s consider one argument at a time. The first is an argument
 for using different SSRC for each individual media stream, which is
@@ -682,7 +682,7 @@ logic in order to handle streams anyway; the separation of streams
 according to stream type is just another piece of application logic,
 which might or might not be appropriate for a particular
 application. A type of application that can mix different media
-sources "blindly" is the audio only "telephone" bridge; most other
+sources \"blindly\" is the audio only \"telephone\" bridge; most other
 type of application needs application-specific logic to perform the
 mix correctly.
 
@@ -710,7 +710,7 @@ Using multiple SSRCs in an RTP session at one endpoint requires
 resolving some unclear aspects of the RTP specification. These could
 potentially lead to some interoperability issues as well as some
 potential significant inefficiencies. These are further discussed in
-["RTP Considerations for Endpoints Sending Multiple Media Streams"](#RFC8108).
+[\"RTP Considerations for Endpoints Sending Multiple Media Streams\"](#RFC8108).
 A application designer needs to consider these issues and the impact
 availability or lack of the optimization in the endpoints has on
 their application.
@@ -1551,16 +1551,16 @@ The Cons:
 ## Summary
 
 There are some clear relations between these archetypes. Both the
-"single SSRC per RTP session" and the "multiple media types in one
-session" are cases which require full explicit signalling of the media
+\"single SSRC per RTP session\" and the \"multiple media types in one
+session\" are cases which require full explicit signalling of the media
 stream relations. However, they operate on two different levels where
 the first primarily enables session level binding, and the second
 needs to do it all on SSRC level. From another perspective, the two
 solutions are the two extreme points when it comes to number of RTP
 sessions needed.
 
-The two other archetypes "Multiple SSRCs of the Same Media Type"
-and "Multiple Sessions for one Media Type" are examples of two other
+The two other archetypes \"Multiple SSRCs of the Same Media Type\"
+and \"Multiple Sessions for one Media Type\" are examples of two other
 cases that first of all allows for some implicit mapping of the role
 or usage of the media streams based on which RTP session they appear
 in. It thus potentially allows for less signalling and in particular
