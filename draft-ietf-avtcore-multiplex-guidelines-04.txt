@@ -150,7 +150,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    sessions, sets of media streams can be structured for efficient
    processing or identification.  Thus the question for any RTP
    application designer is how to best use the RTP session, the SSRC and
-   the payload type to meet the applicationOCOes needs.
+   the payload type to meet the application's needs.
 
    There have been increased interest in more advanced usage of RTP, for
    example, multiple streams can occur when a single endpoint have
@@ -243,7 +243,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    RTP issues more precisely.
 
    This document assumes the applications will use RTCP.  While there
-   are such applications that donOCOet send RTCP, they do not conform to
+   are such applications that don't send RTCP, they do not conform to
    the RTP specification, and thus can be regarded as reusing the RTP
    packet format but not implementing the RTP protocol.
 
@@ -378,7 +378,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    packet containing it in the SSRC field or CSRC list, by receiving an
    RTCP packet mentioning it in an SSRC field, or through signalling
    (e.g., the SDP OCGBPa=ssrc:OCOe attribute).  Thus, the scope of an
-   RTP session is determined by the participantsOCOe network
+   RTP session is determined by the participants' network
    interconnection topology, in combination with RTP and RTCP forwarding
    strategies deployed by the endpoints and any middleboxes, and by the
    signalling.
@@ -566,7 +566,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    All synchronisation sources sent from a single endpoint share the
    same payload types definitions.  The RTP Payload Type is designed
    such that only a single Payload Type is valid at any time instant in
-   the RTP sourceOCOes RTP timestamp time line, effectively time-
+   the RTP source's RTP timestamp time line, effectively time-
    multiplexing different Payload Types if any change occurs.  The
    payload type used can change on a per-packet basis for an SSRC, for
    example a speech codec making use of generic comfort noise [RFC3389].
@@ -657,10 +657,10 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    In many situations this is resolved by the inclusion of a translator
    between the two peers, as described by Topo-PtP-Translator in
-   [RFC7667].  The translatorOCOes main purpose is to make the peer look
-   to the other peer like something it is compatible with.  There can
-   also be other reasons than compatibility to insert a translator in
-   the form of a middlebox or gateway, for example a need to monitor the
+   [RFC7667].  The translator's main purpose is to make the peer look to
+   the other peer like something it is compatible with.  There can also
+   be other reasons than compatibility to insert a translator in the
+   form of a middlebox or gateway, for example a need to monitor the
    media streams.  If the stream transport characteristics are changed
    by the translator, appropriate media handling can require thorough
    understanding of the application logic, specifically any congestion
@@ -691,7 +691,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 3.4.1.  The RTP Specification
 
    RFC 3550 contains some recommendations and a bullet list with 5
-   arguments for different aspects of RTP multiplexing.  LetOCOes review
+   arguments for different aspects of RTP multiplexing.  Let's review
    Section 5.2 of [RFC3550], reproduced below:
 
    OCGBPFor efficient protocol processing, the number of multiplexing
@@ -747,16 +747,16 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    On the other hand, multiplexing multiple related sources of the same
    medium in one RTP session using different SSRC values is the norm for
-   multicast sessions.  The problems listed above donOCOet apply: an RTP
+   multicast sessions.  The problems listed above don't apply: an RTP
    mixer can combine multiple audio sources, for example, and the same
    treatment is applicable for all of them.  It might also be
    appropriate to multiplex streams of the same medium using different
    SSRC values in other scenarios where the last two problems do not
    apply.OCOe
 
-   LetOCOes consider one argument at a time.  The first is an argument
-   for using different SSRC for each individual media stream, which is
-   very applicable.
+   Let's consider one argument at a time.  The first is an argument for
+   using different SSRC for each individual media stream, which is very
+   applicable.
 
    The second argument is advocating against using payload type
    multiplexing, which still stands as can been seen by the extensive
@@ -790,9 +790,9 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    or inter-connected devices handle different aspects of the whole
    multi-media session.
 
-   A summary of RFC 3550OCOes view on multiplexing is to use unique
-   SSRCs for anything that is its own media/packet stream, and to use
-   different RTP sessions for media streams that donOCOet share a media
+   A summary of RFC 3550's view on multiplexing is to use unique SSRCs
+   for anything that is its own media/packet stream, and to use
+   different RTP sessions for media streams that don't share a media
    type.  This document supports the first point; it is very valid.  The
    later is one thing which needs to be further discussed, as imposing a
    single solution on all usages of RTP is inappropriate.  Multiple
@@ -855,8 +855,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
       their allocation to RTP sessions.
 
    This supports a lot of use cases.  All these solutions have
-   shortcomings in cases where the sessionOCOes dynamic properties are
-   such that it is difficult or resource consuming to keep the list of
+   shortcomings in cases where the session's dynamic properties are such
+   that it is difficult or resource consuming to keep the list of
    related SSRCs up to date.
 
    Within RTP/RTCP based solutions when binding to an endpoint or
@@ -920,7 +920,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    In usages involving multicast, having the FEC information on its own
    multicast group allows for flexibility.  This is especially useful
    when receivers see very heterogeneous packet loss rates.  Those
-   receivers that are not seeing packet loss donOCOet need to join the
+   receivers that are not seeing packet loss don't need to join the
    multicast group with the FEC data, and so avoid the overhead of
    receiving unnecessary FEC packets, for example.
 
@@ -931,8 +931,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    There are several different kinds of interworking, and this section
    discusses two related ones.  The interworking between different
    applications and the implications of potentially different choices of
-   usage of RTPOCOes multiplexing points.  The second topic relates to
-   what limitations have to be considered working with some legacy
+   usage of RTP's multiplexing points.  The second topic relates to what
+   limitations have to be considered working with some legacy
    applications.
 
 4.1.1.  Types of Interworking
@@ -990,7 +990,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
       (possibly based on incoming RTCP reports), originating from SSRCs
       controlled by the gateway.
 
-   o  Handling SSRC collision resolution in each applicationOCOes RTP
+   o  Handling SSRC collision resolution in each application's RTP
       sessions.
 
    o  Signalling, choosing and policing appropriate bit-rates for each
@@ -998,8 +998,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    For applications that uses any security mechanism, e.g. in the form
    of SRTP, then the gateway needs to be able to decrypt incoming
-   packets and re-encrypt them in the other applicationOCOes security
-   context.  This is necessary even if all thatOCOes needed is a simple
+   packets and re-encrypt them in the other application's security
+   context.  This is necessary even if all that's needed is a simple
    remapping of SSRC numbers.  If this is done, the gateway also needs
    to be a member of the security contexts of both sides, of course.
 
@@ -1047,10 +1047,10 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    RTP mixer, meaning that the mixer functions as an RTP-terminating
    gateway.
 
-   When establishing RTP sessions that can contain endpoints that
-   arenOCOet updated to handle multiple streams following these
-   recommendations, a particular application can have issues with
-   multiple SSRCs within a single session.  These issues include:
+   When establishing RTP sessions that can contain endpoints that aren't
+   updated to handle multiple streams following these recommendations, a
+   particular application can have issues with multiple SSRCs within a
+   single session.  These issues include:
 
    1.  Need to handle more than one stream simultaneously rather than
        replacing an already existing stream with a new one.
@@ -1068,9 +1068,9 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    This indicates that gateways attempting to interconnect to this class
    of devices has to make sure that only one media stream of each type
-   gets delivered to the endpoint if itOCOes expecting only one, and
-   that the multiplexing format is what the device expects.  It is
-   highly unlikely that RTP translator-based interworking can be made to
+   gets delivered to the endpoint if it's expecting only one, and that
+   the multiplexing format is what the device expects.  It is highly
+   unlikely that RTP translator-based interworking can be made to
    function successfully in such a context.
 
 4.2.  Network Considerations
@@ -1109,7 +1109,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 4.2.2.  NAT and Firewall Traversal
 
-   In todayOCOes network there exist a large number of middleboxes.  The
+   In today's network there exist a large number of middleboxes.  The
    ones that normally have most impact on RTP are Network Address
    Translators (NAT) and Firewalls (FW).
 
@@ -1165,8 +1165,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
       are: 1.5*RTT + Ta*(Additional_Flows-1), where Ta is the pacing
       timer, which ICE specifies to be no smaller than 20 ms.  That
       assumes a message in one direction, and then an immediate
-      triggered check back.  The reason it isnOCOet more, is that ICE
-      first finds one candidate pair that works prior to attempting to
+      triggered check back.  The reason it isn't more, is that ICE first
+      finds one candidate pair that works prior to attempting to
       establish multiple flows.  Thus, there is no extra time until one
       has found a working candidate pair.  Based on that working pair
       the needed extra time is to in parallel establish the, in most
@@ -1293,14 +1293,13 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 4.3.1.  Security Context Scope
 
    When using SRTP [RFC3711] the security context scope is important and
-   can be a necessary differentiation in some applications.  As
-   SRTPOCOes crypto suites (so far) are built around symmetric keys, the
-   receiver will need to have the same key as the sender.  This results
-   in that no one in a multi-party session can be certain that a
-   received packet really was sent by the claimed sender or by another
-   party having access to the key.  In most cases this is a sufficient
-   security property, but there are a few cases where this does create
-   issues.
+   can be a necessary differentiation in some applications.  As SRTP's
+   crypto suites (so far) are built around symmetric keys, the receiver
+   will need to have the same key as the sender.  This results in that
+   no one in a multi-party session can be certain that a received packet
+   really was sent by the claimed sender or by another party having
+   access to the key.  In most cases this is a sufficient security
+   property, but there are a few cases where this does create issues.
 
    The first case is when someone leaves a multi-party session and one
    wants to ensure that the party that left can no longer access the
@@ -1312,8 +1311,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    simulcast version which only premium users are allowed to access.
    The mechanism preventing a receiver from getting the high quality
    stream can be based on the stream being encrypted with a key that
-   user canOCOet access without paying premium, having the key-
-   management limit access to the key.
+   user can't access without paying premium, having the key-management
+   limit access to the key.
 
    SRTP [RFC3711] has no special functions for dealing with different
    sets of master keys for different SSRCs.  The key-management
@@ -1337,7 +1336,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    counterpart (to which DTLS messages would be sent) is the transport
    translator.  Thus an extension like Encrypted Key Transport
    [I-D.ietf-avt-srtp-ekt] is needed or a MIKEY [RFC3830] based solution
-
+   that allows for keying all session participants with the same master
+   key.
 
 
 
@@ -1345,9 +1345,6 @@ Westerlund, et al.         Expires May 3, 2018                 [Page 24]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
-
-   that allows for keying all session participants with the same master
-   key.
 
 4.3.3.  Complexity Implications
 
@@ -1389,11 +1386,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    2.  The signalling has good possibilities to negotiate and describe
        the exact formats and bit-rates for each media stream, especially
-       using todayOCOes tools in SDP.
+       using today's tools in SDP.
 
    3.  It does not matter if usage or purpose of the media stream is
        signalled on media stream level or session level as there is no
        difference.
+
+   4.  It is possible to control security association per RTP media
+       stream with current key-management, since each media stream is
 
 
 
@@ -1402,8 +1402,6 @@ Westerlund, et al.         Expires May 3, 2018                 [Page 25]
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
-   4.  It is possible to control security association per RTP media
-       stream with current key-management, since each media stream is
        directly related to an RTP session, and the keying operates on a
        per-session basis.
 
@@ -1430,8 +1428,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        media streams.
 
    c.  The port consumption might become a problem for centralised
-       services, where the central nodeOCOes port consumption grows
-       rapidly with the number of sessions.
+       services, where the central node's port consumption grows rapidly
+       with the number of sessions.
 
    d.  For applications where the media streams are highly dynamic in
        their usage, i.e. entering and leaving, the amount of signalling
@@ -1439,7 +1437,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        additional RTP sessions can also arise.
 
    e.  Cross session RTCP requests might be needed, and the fact that
-       theyOCOere impossible can cause issues.
+       they're impossible can cause issues.
 
    f.  If the same SSRC value is reused in multiple RTP sessions rather
        than being randomly chosen, interworking with applications that
@@ -1450,6 +1448,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        guarantee that only two endpoints participate as packet senders.
        Using SSM, it is possible to restrict to these requirements if no
        RTCP feedback is injected back into the SSM group.
+
+
 
 
 
@@ -1526,7 +1526,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        multiple SSRC per endpoint.
 
    c.  Will not be able to control security association for sets of
-       media streams within the same media type with todayOCOes key-
+       media streams within the same media type with today's key-
        management mechanisms, unless these are split into different RTP
        sessions.
 
@@ -1551,7 +1551,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    Some typical reasons for going to this archetype are scalability over
    multicast, simulcast, need for extended QoS prioritisation of media
    streams due to their usage in the application, or the need for fine-
-   grained signalling using todayOCOes tools.
+   grained signalling using today's tools.
 
    The Pros:
 
@@ -1559,8 +1559,8 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        individually select which RTP sessions they want to participate
        in, assuming each RTP session has its own multicast group.
 
-   2.  Indication of the applicationOCOes usage of the media stream,
-       where multiple different usages exist.
+   2.  Indication of the application's usage of the media stream, where
+       multiple different usages exist.
 
 
 
@@ -1609,7 +1609,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    g.  If the applications need finer control than on media type level
        over which session participants that are included in different
-       sets of security associations, most of todayOCOes key-management
+       sets of security associations, most of today's key-management
        will have difficulties establishing such a session.
 
    For more complex RTP applications that have several different usages
@@ -1652,7 +1652,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        processing can still be supported despite single session.
 
    3.  Can handle dynamic allocations of media streams well on an RTP
-       level.  Depends on the applicationOCOes needs for explicit
+       level.  Depends on the application's needs for explicit
        indication of the stream usage and how timely that can be
        signalled.
 
@@ -1682,10 +1682,10 @@ Westerlund, et al.         Expires May 3, 2018                 [Page 30]
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
-   e.  If there is significant asymmetry between the media streamsOCOe
-       RTCP reporting needs, there are some challenges in configuration
-       and usage to avoid wasting RTCP reporting on the media stream
-       that does not need that frequent reporting.
+   e.  If there is significant asymmetry between the media streams' RTCP
+       reporting needs, there are some challenges in configuration and
+       usage to avoid wasting RTCP reporting on the media stream that
+       does not need that frequent reporting.
 
    f.  Not suitable for applications where some receivers like to
        receive only a subset of the media streams, especially if
@@ -2093,7 +2093,7 @@ Appendix A.  Dismissing Payload Type Multiplexing
    This section documents a number of reasons why using the payload type
    as a multiplexing point for most things related to multiple streams
    is unsuitable.  If one attempts to use Payload type multiplexing
-   beyond itOCOes defined usage, that has well known negative effects on
+   beyond it's defined usage, that has well known negative effects on
    RTP.  To use Payload type as the single discriminator for multiple
    streams implies that all the different media streams are being sent
    with the same SSRC, thus using the same timestamp and sequence number
@@ -2175,7 +2175,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
         per Payload Type level and would require re-definition in that
         context.
 
-   12.  A legacy endpoint that doesnOCOet understand the indication that
+   12.  A legacy endpoint that does not understand the indication that
         different RTP payload types are different media streams might be
 
 
@@ -2230,7 +2230,7 @@ B.1.1.  Session Oriented Properties
       visible from the first media packet, but is sometimes useful to
       know before packet arrival).
 
-   Some of these issues are clearly SDPOCOes problem rather than RTP
+   Some of these issues are clearly SDP's problem rather than RTP
    limitations.  However, if the aim is to deploy an solution using
    additional SSRCs that contains several sets of media streams with
    different properties (encoding/packetization parameter, bit-rate,
@@ -2247,7 +2247,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    additional SSRC only, a number of signalling extensions are needed to
    clarify that there are multiple sets of media streams with different
    properties and that they need in fact be kept different, since a
-   single set will not satisfy the applicationOCOes requirements.
+   single set will not satisfy the application's requirements.
 
    For some parameters, such as resolution and framerate, a SSRC-linked
    mechanism has been proposed:
