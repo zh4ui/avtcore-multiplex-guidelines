@@ -5,19 +5,19 @@
 Network Working Group                                      M. Westerlund
 Internet-Draft                                                 B. Burman
 Intended status: Informational                                  Ericsson
-Expires: May 3, 2018                                          C. Perkins
+Expires: May 4, 2018                                          C. Perkins
                                                    University of Glasgow
                                                            H. Alvestrand
                                                                   Google
                                                                  R. Even
                                                                 H. Zheng
                                                                   Huawei
-                                                        October 30, 2017
+                                                        October 31, 2017
 
 
     Guidelines for using the Multiplexing Features of RTP to Support
                          Multiple Media Streams
-               draft-ietf-avtcore-multiplex-guidelines-04
+               draft-ietf-avtcore-multiplex-guidelines-05
 
 Abstract
 
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 3, 2018.
+   This Internet-Draft will expire on May 4, 2018.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Westerlund, et al.         Expires May 3, 2018                  [Page 1]
+Westerlund, et al.         Expires May 4, 2018                  [Page 1]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
@@ -84,32 +84,32 @@ Table of Contents
      3.2.  RTP Multiplexing Points . . . . . . . . . . . . . . . . .   6
        3.2.1.  RTP Session . . . . . . . . . . . . . . . . . . . . .   7
        3.2.2.  Synchronisation Source (SSRC) . . . . . . . . . . . .   8
-       3.2.3.  Contributing Source (CSRC)  . . . . . . . . . . . . .   9
+       3.2.3.  Contributing Source (CSRC)  . . . . . . . . . . . . .  10
        3.2.4.  RTP Payload Type  . . . . . . . . . . . . . . . . . .  10
      3.3.  Issues Related to RTP Topologies  . . . . . . . . . . . .  11
-     3.4.  Issues Related to RTP and RTCP Protocol . . . . . . . . .  12
-       3.4.1.  The RTP Specification . . . . . . . . . . . . . . . .  12
-       3.4.2.  Multiple SSRCs in a Session . . . . . . . . . . . . .  14
+     3.4.  Issues Related to RTP and RTCP Protocol . . . . . . . . .  13
+       3.4.1.  The RTP Specification . . . . . . . . . . . . . . . .  13
+       3.4.2.  Multiple SSRCs in a Session . . . . . . . . . . . . .  15
        3.4.3.  Binding Related Sources . . . . . . . . . . . . . . .  15
-       3.4.4.  Forward Error Correction  . . . . . . . . . . . . . .  16
+       3.4.4.  Forward Error Correction  . . . . . . . . . . . . . .  17
    4.  Particular Considerations for RTP Multiplexing  . . . . . . .  17
      4.1.  Interworking Considerations . . . . . . . . . . . . . . .  17
        4.1.1.  Types of Interworking . . . . . . . . . . . . . . . .  17
-       4.1.2.  RTP Translator Interworking . . . . . . . . . . . . .  17
+       4.1.2.  RTP Translator Interworking . . . . . . . . . . . . .  18
        4.1.3.  Gateway Interworking  . . . . . . . . . . . . . . . .  18
        4.1.4.  Multiple SSRC Legacy Considerations . . . . . . . . .  19
-     4.2.  Network Considerations  . . . . . . . . . . . . . . . . .  19
-       4.2.1.  Quality of Service  . . . . . . . . . . . . . . . . .  19
+     4.2.  Network Considerations  . . . . . . . . . . . . . . . . .  20
+       4.2.1.  Quality of Service  . . . . . . . . . . . . . . . . .  20
        4.2.2.  NAT and Firewall Traversal  . . . . . . . . . . . . .  20
        4.2.3.  Multicast . . . . . . . . . . . . . . . . . . . . . .  22
      4.3.  Security and Key Management Considerations  . . . . . . .  23
-       4.3.1.  Security Context Scope  . . . . . . . . . . . . . . .  23
+       4.3.1.  Security Context Scope  . . . . . . . . . . . . . . .  24
        4.3.2.  Key Management for Multi-party session  . . . . . . .  24
-       4.3.3.  Complexity Implications . . . . . . . . . . . . . . .  24
+       4.3.3.  Complexity Implications . . . . . . . . . . . . . . .  25
 
 
 
-Westerlund, et al.         Expires May 3, 2018                  [Page 2]
+Westerlund, et al.         Expires May 4, 2018                  [Page 2]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
@@ -121,19 +121,20 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
      5.4.  Multiple Media Types in one Session . . . . . . . . . . .  30
      5.5.  Summary . . . . . . . . . . . . . . . . . . . . . . . . .  31
    6.  Summary considerations and guidelines . . . . . . . . . . . .  31
-     6.1.  Guidelines  . . . . . . . . . . . . . . . . . . . . . . .  31
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  33
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  33
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  33
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  33
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  33
-   Appendix A.  Dismissing Payload Type Multiplexing . . . . . . . .  37
-   Appendix B.  Signalling considerations  . . . . . . . . . . . . .  39
-     B.1.  Signalling Aspects  . . . . . . . . . . . . . . . . . . .  39
-       B.1.1.  Session Oriented Properties . . . . . . . . . . . . .  39
-       B.1.2.  SDP Prevents Multiple Media Types . . . . . . . . . .  40
-       B.1.3.  Signalling Media Stream Usage . . . . . . . . . . . .  40
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  41
+     6.1.  Guidelines  . . . . . . . . . . . . . . . . . . . . . . .  32
+   7.  Open Issues . . . . . . . . . . . . . . . . . . . . . . . . .  33
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  33
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  34
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  34
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  34
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  34
+   Appendix A.  Dismissing Payload Type Multiplexing . . . . . . . .  38
+   Appendix B.  Signalling considerations  . . . . . . . . . . . . .  40
+     B.1.  Signalling Aspects  . . . . . . . . . . . . . . . . . . .  40
+       B.1.1.  Session Oriented Properties . . . . . . . . . . . . .  40
+       B.1.2.  SDP Prevents Multiple Media Types . . . . . . . . . .  41
+       B.1.3.  Signalling Media Stream Usage . . . . . . . . . . . .  41
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  42
 
 1.  Introduction
 
@@ -164,8 +165,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
 
-
-Westerlund, et al.         Expires May 3, 2018                  [Page 3]
+Westerlund, et al.         Expires May 4, 2018                  [Page 3]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
@@ -221,7 +221,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
 
-Westerlund, et al.         Expires May 3, 2018                  [Page 4]
+Westerlund, et al.         Expires May 4, 2018                  [Page 4]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
@@ -277,7 +277,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
 
-Westerlund, et al.         Expires May 3, 2018                  [Page 5]
+Westerlund, et al.         Expires May 4, 2018                  [Page 5]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
@@ -302,41 +302,68 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    media streams.  Figure 1 outlines the process of demultiplexing
    incoming RTP streams:
 
+
                            |
+
                            | packets
+
            +--             v
+
            |        +------------+
+
            |        |   Socket   |
+
            |        +------------+
+
            |            ||  ||
+
       RTP  |       RTP/ ||  |+-----> SCTP ( ...and any other protocols)
+
    Session |       RTCP ||  +------> STUN (multiplexed using same port)
+
            +--          ||
+
            +--          ||
+
            |      (split by SSRC)
+
            |       ||   ||   ||
+
            |       ||   ||   ||
-     Media |      +--+ +--+ +--+
-   Streams |      |PB| |PB| |PB| Jitter buffer, process RTCP, FEC, etc.
-           |      +--+ +--+ +--+
-           +--      |   |     |
-           (pick rendering context based on PT)
-           +--      |  /      |
-           |        +---+     |
-           |         /  |     |
-   Payload |      +--+ +--+ +--+
-   Formats |      |CR| |CR| |CR| Codecs and rendering
-           |      +--+ +--+ +--+
-           +--
-
-                   Figure 1: RTP Demultiplexing Process
 
 
 
-Westerlund, et al.         Expires May 3, 2018                  [Page 6]
+Westerlund, et al.         Expires May 4, 2018                  [Page 6]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
+
+     Media |      +--+ +--+ +--+
+
+   Streams |      |PB| |PB| |PB| Jitter buffer, process RTCP, FEC, etc.
+
+           |      +--+ +--+ +--+
+
+           +--      |   |     |
+
+           (pick rendering context based on PT)
+
+           +--      |  /      |
+
+           |        +---+     |
+
+           |         /  |     |
+
+   Payload |      +--+ +--+ +--+
+
+   Formats |      |CR| |CR| |CR| Codecs and rendering
+
+           |      +--+ +--+ +--+
+
+           +--
+
+
+                   Figure 1: RTP Demultiplexing Process
 
 3.2.1.  RTP Session
 
@@ -359,6 +386,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    underlying transport layer to separate different sessions, and on the
    signalling to identify sessions in a manner that is meaningful to the
    application.  The signalling layer might give sessions an explicit
+
+
+
+Westerlund, et al.         Expires May 4, 2018                  [Page 7]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    identifier, or their identification might be implicit based on the
    addresses and ports used.  Accordingly, a single RTP Session can have
    multiple associated identifiers, explicit and implicit, belonging to
@@ -385,15 +420,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    one RTP session will have some higher layer understanding of the
    relationship between the sessions they create.
 
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                  [Page 7]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
 3.2.2.  Synchronisation Source (SSRC)
 
    A synchronisation source (SSRC) identifies an RTP source or an RTP
@@ -416,6 +442,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    dependent on the network address of the endpoint, and is intended to
    be unique within an RTP session.  Synchronisation source identifier
    collisions can occur, and are handled as specified in [RFC3550] and
+
+
+
+Westerlund, et al.         Expires May 4, 2018                  [Page 8]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    [RFC5576], resulting in the synchronisation source identifier of the
    affecting RTP sources and/or sinks changing.  An RTP source that
    changes its RTP Session identifier (e.g. source transport address)
@@ -431,7 +465,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
       In some cases, the same SSRC Identifier value is used to relate
       streams in two different RTP Sessions, such as in Multi-Session
-      Transmission of scalable video [RFC6190].  This is NOT RECOMMENDED
+      Transmission of scalable video [RFC6190].  This is to be avoided
       since there is no guarantee of uniqueness in SSRC values across
       RTP sessions.
 
@@ -442,13 +476,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    An SSRC identifier is used by different type of sources as well as
    sinks:
-
-
-
-Westerlund, et al.         Expires May 3, 2018                  [Page 8]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
 
    Real Media Source:  Connected to a "physical" media source, for
       example a camera or microphone.
@@ -470,6 +497,15 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    method to bind an SSRC to a CNAME, effectively cross-correlating
    SSRCs within and between RTP Sessions as coming from the same
    endpoint.  The main property attributed to SSRCs associated with the
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                  [Page 9]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    same CNAME is that they are from a particular synchronisation context
    and can be synchronised at playback.
 
@@ -498,14 +534,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    Mixer-to-Client Audio Level Indication [RFC6465] expands on the
    receivers information about a packet with a CSRC list.  Due to these
    restrictions, CSRC will not be considered a fully qualified
-
-
-
-Westerlund, et al.         Expires May 3, 2018                  [Page 9]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    multiplexing point and will be disregarded in the rest of this
    document.
 
@@ -524,6 +552,15 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    includes media type, RTP timestamp sampling rate, codec, codec
    configuration, payload format configurations, and various robustness
    mechanisms such as redundant encodings [RFC2198].
+
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 10]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    The payload type is scoped by sending endpoint within an RTP Session.
    All synchronisation sources sent from a single endpoint share the
@@ -554,25 +591,17 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    are used in each context.  For example, an RTP media stream can be
    associated with an SDP "m=" line by comparing the RTP payload type
    numbers used by the media stream with payload types signalled in the
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 10]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    "a=rtpmap:" lines in the media sections of the SDP.  If RTP media
    streams are being associated with signalling contexts based on the
    RTP payload type, then the assignment of RTP payload type numbers
-   MUST be unique across signalling contexts; if the same RTP payload
-   format configuration is used in multiple contexts, then a different
-   RTP payload type number has to be assigned in each context to ensure
-   uniqueness.  If the RTP payload type number is not being used to
-   associated RTP media streams with a signalling context, then the same
-   RTP payload type number can be used to indicate the exact same RTP
-   payload format configuration in multiple contexts.  In case of
-   bundled media, Section 10.2 of
+   needs to be unique across signalling contexts; if the same RTP
+   payload format configuration is used in multiple contexts, then a
+   different RTP payload type number has to be assigned in each context
+   to ensure uniqueness.  If the RTP payload type number is not being
+   used to associated RTP media streams with a signalling context, then
+   the same RTP payload type number can be used to indicate the exact
+   same RTP payload format configuration in multiple contexts.  In case
+   of bundled media, Section 10.2 of
    [I-D.ietf-mmusic-sdp-bundle-negotiation] provides more information on
    SDP signalling.
 
@@ -581,6 +610,13 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    The impact of how RTP multiplexing is performed will in general vary
    with how the RTP Session participants are interconnected, described
    by RTP Topology [RFC7667].
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 11]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    Even the most basic use case, denoted Topo-Point-to-Point in
    [RFC7667], raises a number of considerations that are discussed in
@@ -610,14 +646,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    o  No common media codec for a media type thus requiring transcoding
 
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 11]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    o  Different support for multiple RTP sources and RTP sessions
 
    o  Usage of different media transport protocols, i.e RTP or other.
@@ -637,6 +665,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    by the translator, appropriate media handling can require thorough
    understanding of the application logic, specifically any congestion
    control or media adaptation.
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 12]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    The point to point topology can contain one to many RTP sessions with
    one to many media sources per session, each having one or more RTP
@@ -667,13 +703,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    SHOULD be carried in a separate RTP session with its own destination
    transport address.
 
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 12]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    Separate audio and video streams SHOULD NOT be carried in a single
    RTP session and demultiplexed based on the payload type or SSRC
    fields.  Interleaving packets with different RTP media types but
@@ -693,6 +722,13 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    3.  The RTCP sender and receiver reports (see Section 6.4) can only
        describe one timing and sequence number space per SSRC and do not
        carry a payload type field.
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 13]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    4.  An RTP mixer would not be able to combine interleaved streams of
        incompatible media into one stream.
@@ -722,14 +758,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    using different SSRC for each individual media stream, which is very
    applicable.
 
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 13]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    The second argument is advocating against using payload type
    multiplexing, which still stands as can been seen by the extensive
    list of issues found in Appendix A.
@@ -750,6 +778,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    The fifth argument discusses network aspects that we will discuss
    more below in Section 4.2.  It also goes into aspects of
    implementation, like decomposed endpoints where different processes
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 14]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    or inter-connected devices handle different aspects of the whole
    multi-media session.
 
@@ -762,10 +798,10 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    Media Types in an RTP Session specification
    [I-D.ietf-avtcore-multi-media-rtp-session] provides a detailed
    analysis of the potential issues in having multiple media types in
-   the same RTP session.  This document tries to provide an moreover
-   arching consideration regarding the usage of RTP session and
-   considers multiple media types in one RTP session as possible choice
-   for the RTP application designer.
+   the same RTP session.  This document tries to provide an wider scoped
+   consideration regarding the usage of RTP session and considers
+   multiple media types in one RTP session as possible choice for the
+   RTP application designer.
 
 3.4.2.  Multiple SSRCs in a Session
 
@@ -777,14 +813,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    [RFC8108].  A application designer needs to consider these issues and
    the impact availability or lack of the optimization in the endpoints
    has on their application.
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 14]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
 
    If an application will become affected by the issues described, using
    Multiple RTP sessions can mitigate these issues.
@@ -806,6 +834,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    SDP Media Description Grouping:  The SDP Grouping Framework [RFC5888]
       uses various semantics to group any number of media descriptions.
       These has previously been considered primarily as grouping RTP
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 15]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
       sessions, [I-D.ietf-mmusic-sdp-bundle-negotiation] groups multiple
       media descriptors as a single RTP session.
 
@@ -834,14 +870,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    ensures that if you populate a single session with 9292 SSRCs at
    random, the chances are approximately 1% that at least one collision
    will occur.  When a collision occur this will force one to change
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 15]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    SSRC in all RTP sessions and thus resynchronizing all of them instead
    of only the single media stream having the collision.  Therefore it
    is not recommended to use such method.  Using [RFC7656] streams from
@@ -861,6 +889,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    [I-D.ietf-mmusic-rid] provides an RTP/RTCP based mechanism capable of
    supporting explicit association within an RTP session.
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 16]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
 3.4.4.  Forward Error Correction
 
@@ -888,16 +924,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    multicast group with the FEC data, and so avoid the overhead of
    receiving unnecessary FEC packets, for example.
 
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 16]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
 4.  Particular Considerations for RTP Multiplexing
 
 4.1.  Interworking Considerations
@@ -920,6 +946,13 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    gateway to interconnect applications.  This gateway then needs to
    change the multiplexing structure or adhere to limitations in each
    application.
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 17]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    There are two fundamental approaches to gatewaying: RTP Translator
    interworking (RTP bridging), where the gateway acts as an RTP
@@ -945,15 +978,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    the other one is not, successful interconnection depends on locking
    the more flexible application into the operating mode where
    interconnection can be successful, even if no participants using the
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 17]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    less flexible application are present when the RTP sessions are being
    created.
 
@@ -972,12 +996,19 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    o  Signalling, choosing and policing appropriate bit-rates for each
       session.
 
-   If either of the applications has any security applied, e.g. in the
-   form of SRTP, the gateway needs to be able to decrypt incoming
+   For applications that uses any security mechanism, e.g. in the form
+   of SRTP, then the gateway needs to be able to decrypt incoming
    packets and re-encrypt them in the other application's security
    context.  This is necessary even if all that's needed is a simple
    remapping of SSRC numbers.  If this is done, the gateway also needs
    to be a member of the security contexts of both sides, of course.
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 18]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    Other tasks a gateway might need to apply include transcoding (for
    incompatible codec types), rescaling (for incompatible video size
@@ -1000,18 +1031,9 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    the transport level, and additional complexities in form of the
    decrypt-encrypt cycles needed for each forwarded packet.  SRTP, due
    to its keying structure, also requires that each RTP session needs
-   different master keys, as use of the same key in two RTP sessions can
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 18]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
-   result in two-time pads that completely breaks the confidentiality of
-   the packets.
+   different master keys, as use of the same key in two RTP sessions for
+   some ciphers can result in two-time pads that completely breaks the
+   confidentiality of the packets.
 
 4.1.4.  Multiple SSRC Legacy Considerations
 
@@ -1037,6 +1059,13 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    3.  Be capable of rendering multiple streams simultaneously.
 
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 19]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    This indicates that gateways attempting to interconnect to this class
    of devices has to make sure that only one media stream of each type
    gets delivered to the endpoint if it's expecting only one, and that
@@ -1052,19 +1081,10 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 4.2.1.  Quality of Service
 
    When it comes to Quality of Service mechanisms, they are either flow
-   based or marking based.  RSVP [RFC2205] is an example of a flow based
-   mechanism, while Diff-Serv [RFC2474] is an example of a Marking based
-   one.  For a marking based scheme, the method of multiplexing will not
-   affect the possibility to use QoS.
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 19]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
+   based or packet marking based.  RSVP [RFC2205] is an example of a
+   flow based mechanism, while Diff-Serv [RFC2474] is an example of a
+   packet marking based one.  For a packet marking based scheme, the
+   method of multiplexing will not affect the possibility to use QoS.
 
    However, for a flow based scheme there is a clear difference between
    the methods.  Additional SSRC will result in all media streams being
@@ -1093,6 +1113,15 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    ones that normally have most impact on RTP are Network Address
    Translators (NAT) and Firewalls (FW).
 
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 20]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    Below we analyse and comment on the impact of requiring more
    underlying transport flows in the presence of NATs and Firewalls:
 
@@ -1114,14 +1143,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    NAT State:  If an endpoint sits behind a NAT, each flow it generates
       to an external address will result in a state that has to be kept
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 20]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
       in the NAT.  That state is a limited resource.  In home or Small
       Office/Home Office (SOHO) NATs, memory or processing are usually
       the most limited resources.  For large scale NATs serving many
@@ -1135,7 +1156,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
       10 UDP flows, compared to certain web applications that can use
       100+ TCP flows to various servers from a single browser instance.
 
-   NAT Traversal Excess Time:  Making the NAT/FW traversal takes a
+   NAT Traversal Excess Time:  Performing the NAT/FW traversal takes a
       certain amount of time for each flow.  It also takes time in a
       phase of communication between accepting to communicate and the
       media path being established which is fairly critical.  The best
@@ -1149,6 +1170,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
       establish multiple flows.  Thus, there is no extra time until one
       has found a working candidate pair.  Based on that working pair
       the needed extra time is to in parallel establish the, in most
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 21]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
       cases 2-3, additional flows.  However, packet loss causes extra
       delays, at least 100 ms, which is the minimal retransmission timer
       for ICE.
@@ -1170,20 +1199,11 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    Additional SSRC keeps the additional media streams within one RTP
    Session and transport flow and does not introduce any additional NAT
    traversal complexities per media stream.  This can be compared with
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 21]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    normally one or two additional transport flows per RTP session when
    using multiple RTP sessions.  Additional lower layer transport flows
    will be needed, unless an explicit de-multiplexing layer is added
-   between RTP and the transport protocol.  A proposal for how to
-   multiplex multiple RTP sessions over the same single lower layer
-   transport exist in [I-D.westerlund-avtcore-transport-multiplexing].
+   between RTP and the transport protocol.  At time of writing no such
+   mechanism was defined.
 
 4.2.3.  Multicast
 
@@ -1205,9 +1225,18 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    RTP session per multicast group is used.
 
    In addition, the transport flow considerations in multicast are a bit
-   different from unicast; NATs are not useful in the multicast
-   environment, meaning that the entire port range of each multicast
-   address is available for distinguishing between RTP sessions.
+   different from unicast; NATs with port translation are not useful in
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 22]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
+   the multicast environment, meaning that the entire port range of each
+   multicast address is available for distinguishing between RTP
+   sessions.
 
    Thus it appears easiest and most straightforward to use multiple RTP
    sessions for sending different media flows used for adapting to
@@ -1224,15 +1253,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    2.  Within each RTP session, the number of RTP Sinks is likely to be
        much larger than the number of RTP sources.
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 22]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
 
    3.  Multicast applications need signalling functions to identify the
        relationships between RTP sessions.
@@ -1252,19 +1272,7 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    challenging.  First of all the key-management and the security
    protocol needs to support group communication.  Source authentication
    requires special solutions.  For more discussion on this please
-   review Options for Securing RTP Sessions
-   [I-D.ietf-avtcore-rtp-security-options].
-
-   For applications that don't need flow based QoS and like to save
-   ports and NAT/FW traversal costs and where usage of multiple media
-   types in one RTP session is not suitable, there is a proposal for how
-   to achieve multiplexing of multiple RTP sessions over the same lower
-   layer transport [I-D.westerlund-avtcore-transport-multiplexing].
-   Using such a solution would allow Multiple RTP session without most
-   of the perceived downsides of Multiple RTP sessions creating a need
-   for additional transport flows, but this solution would require
-   support from all functions that handle RTP packets, including
-   firewalls.
+   review Options for Securing RTP Sessions [RFC7201].
 
 4.3.  Security and Key Management Considerations
 
@@ -1273,7 +1281,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    RTP session or multiple RTP sessions.  However, there are a few
    aspects of multiparty sessions that might warrant consideration.  For
    general information of possible methods of securing RTP, please
-   review RTP Security Options [I-D.ietf-avtcore-rtp-security-options].
+   review RTP Security Options [RFC7201].
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 23]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
 4.3.1.  Security Context Scope
 
@@ -1282,14 +1297,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    crypto suites (so far) are built around symmetric keys, the receiver
    will need to have the same key as the sender.  This results in that
    no one in a multi-party session can be certain that a received packet
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 23]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    really was sent by the claimed sender or by another party having
    access to the key.  In most cases this is a sufficient security
    property, but there are a few cases where this does create issues.
@@ -1332,20 +1339,19 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    that allows for keying all session participants with the same master
    key.
 
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 24]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
 4.3.3.  Complexity Implications
 
    The usage of security functions can surface complexity implications
    of the choice of multiplexing and topology.  This becomes especially
    evident in RTP topologies having any type of middlebox that processes
    or modifies RTP/RTCP packets.  Where there is very small overhead for
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 24]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    an RTP translator or mixer to rewrite an SSRC value in the RTP packet
    of an unencrypted session, the cost of doing it when using
    cryptographic security functions is higher.  For example if using
@@ -1388,19 +1394,18 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    4.  It is possible to control security association per RTP media
        stream with current key-management, since each media stream is
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 25]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
        directly related to an RTP session, and the keying operates on a
        per-session basis.
 
    The Cons:
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 25]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
 
    a.  The number of RTP sessions grows directly in proportion with the
        number of media streams, which has the implications:
@@ -1444,20 +1449,21 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        Using SSM, it is possible to restrict to these requirements if no
        RTCP feedback is injected back into the SSM group.
 
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 26]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    h.  For most security mechanisms, each RTP session or transport flow
        requires individual key-management and security association
        establishment thus increasing the overhead.
 
    RTP applications that need to inter-work with legacy RTP
    applications, like most deployed VoIP and video conferencing
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 26]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    solutions, can potentially benefit from this structure.  However, a
    large number of media descriptions in SDP can also run into issues
    with existing implementations.  For any application needing a larger
@@ -1501,18 +1507,16 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
        the RTP session rather than an individual SSRC can avoid the need
        for in-session signalling of meta-information about each SSRC.
 
-   6.  Low overhead for security association establishment.
-
-   The Cons:
 
 
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 27]
+Westerlund, et al.         Expires May 4, 2018                 [Page 27]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
+
+   6.  Low overhead for security association establishment.
+
+   The Cons:
 
    a.  May have some need for cross session RTCP requests for things
        that affect both media types in an asynchronous way.
@@ -1558,17 +1562,18 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    2.  Indication of the application's usage of the media stream, where
        multiple different usages exist.
 
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 28]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    3.  Less need for SSRC specific explicit signalling for each media
        stream and thus reduced need for explicit and timely signalling.
 
    4.  Enables detailed QoS prioritisation for flow based mechanisms.
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 28]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
 
    5.  Works well with de-composite endpoints.
 
@@ -1612,19 +1617,17 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    simulcast, this solution can enable those functions at the cost of
    increased overhead associated with the additional sessions.  This
    type of structure is suitable for more advanced applications as well
-   as multicast based applications requiring differentiation to
-   different participants.
 
 
 
 
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 29]
+Westerlund, et al.         Expires May 4, 2018                 [Page 29]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
+
+   as multicast based applications requiring differentiation to
+   different participants.
 
 5.4.  Multiple Media Types in one Session
 
@@ -1671,17 +1674,16 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    d.  Flow based QoS cannot provide separate treatment to some media
        streams compared to others in the single RTP session.
 
-   e.  If there is significant asymmetry between the media streams' RTCP
-       reporting needs, there are some challenges in configuration and
 
 
 
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 30]
+Westerlund, et al.         Expires May 4, 2018                 [Page 30]
 
 Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
+   e.  If there is significant asymmetry between the media streams' RTCP
+       reporting needs, there are some challenges in configuration and
        usage to avoid wasting RTCP reporting on the media stream that
        does not need that frequent reporting.
 
@@ -1724,19 +1726,22 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 6.  Summary considerations and guidelines
 
+
+
+
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 31]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
 6.1.  Guidelines
 
    This section contains a number of recommendations for implementers or
    specification writers when it comes to handling multi-stream.
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 31]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
 
    Do not Require the same SSRC across Sessions:  As discussed in
       Section 3.4.3 there exist drawbacks in using the same SSRC in
@@ -1745,14 +1750,15 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
       signal the relation is used, either in RTP/RTCP or in the used
       signalling mechanism that establishes the RTP session(s).
 
-   Use additional SSRCs additional Media Sources:  In the cases where an
-      RTP endpoint needs to transmit additional media streams of the
-      same media type in the application, with the same processing
-      requirements at the network and RTP layers, it is suggested to
-      send them as additional SSRCs in the same RTP session.  For
-      example a telepresence room where there are three cameras, and
-      each camera captures 2 persons sitting at the table, sending each
-      camera as its own SSRC within a single RTP session is suggested.
+   Use additional SSRCs for additional Media Sources:  In the cases
+      where an RTP endpoint needs to transmit additional media streams
+      of the same media type in the application, with the same
+      processing requirements at the network and RTP layers, it is
+      suggested to send them as additional SSRCs in the same RTP
+      session.  For example a telepresence room where there are three
+      cameras, and each camera captures 2 persons sitting at the table,
+      sending each camera as its own SSRC within a single RTP session is
+      suggested.
 
    Use additional RTP sessions for streams with different requirements:
 
@@ -1780,42 +1786,91 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    Transport Support Extensions:  When defining new RTP/RTCP extensions
       intended for transport support, like the retransmission or FEC
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 32]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
       mechanisms, they are expected to include support for both
       additional SSRCs and multiple RTP sessions so that application
       developers can choose freely from the set of mechanisms without
       concerning themselves with which of the multiplexing choices a
       particular solution supports.
 
+7.  Open Issues
 
+   There are currently some issues that needs to be resolved before this
+   document is ready to be published:
 
+   1.  Use of RFC 2119 language is section on SSRC (3.2.2)
 
-Westerlund, et al.         Expires May 3, 2018                 [Page 32]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+   2.  Better align source and sink terminolgy with Taxonomy
+       (Section 3.2.2)
 
+   3.  Section on Binding Related Sources (Section 3.4.3) needs more
+       text on usage of the RID and other SDES based mechanisms created.
 
-7.  IANA Considerations
+   4.  Does the MSID text need to be updated and clarified based on the
+       evoulsion of MSID since previous version.  Section 3.4.3.
+
+   5.  Section 4.1.2 (RTP Translator Interworking) needs to be updated.
+       It is not obvious that it is a natural requirement that the same
+       multiplexing is used.  This needs better discussion.
+
+   6.  Refernce to Ta for ICE being 20 ms will need to be updated due to
+       ICE update.
+
+   7.  In Section 4.3.2 (Key Management for Multi-party session) the
+       reference to EKT needs to be updated, question is if draft-ietf-
+       perc-ekt-diet is appropriate here?
+
+   8.  Can we find a more approriate term than archetypes?
+
+   9.
+
+8.  IANA Considerations
 
    This document makes no request of IANA.
 
    Note to RFC Editor: this section can be removed on publication as an
    RFC.
 
-8.  Security Considerations
+
+
+
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 33]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
+9.  Security Considerations
 
    There is discussion of the security implications of choosing SSRC vs
    Multiple RTP session in Section 4.3.
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [RFC3550]  Schulzrinne, H., Casner, S., Frederick, R., and V.
               Jacobson, "RTP: A Transport Protocol for Real-Time
               Applications", STD 64, RFC 3550, DOI 10.17487/RFC3550,
               July 2003, <https://www.rfc-editor.org/info/rfc3550>.
 
-9.2.  Informative References
+   [RFC7656]  Lennox, J., Gross, K., Nandakumar, S., Salgueiro, G., and
+              B. Burman, Ed., "A Taxonomy of Semantics and Mechanisms
+              for Real-Time Transport Protocol (RTP) Sources", RFC 7656,
+              DOI 10.17487/RFC7656, November 2015,
+              <https://www.rfc-editor.org/info/rfc7656>.
+
+10.2.  Informative References
 
    [ALF]      Clark, D. and D. Tennenhouse, "Architectural
               Considerations for a New Generation of Protocols", SIGCOMM
@@ -1835,25 +1890,21 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
               ietf-avtcore-multi-media-rtp-session-13 (work in
               progress), December 2015.
 
-   [I-D.ietf-avtcore-rtp-security-options]
-              Westerlund, M. and C. Perkins, "Options for Securing RTP
-              Sessions", draft-ietf-avtcore-rtp-security-options-10
-              (work in progress), January 2014.
-
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 33]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    [I-D.ietf-mmusic-msid]
               Alvestrand, H., "WebRTC MediaStream Identification in the
               Session Description Protocol", draft-ietf-mmusic-msid-16
               (work in progress), February 2017.
+
+
+
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 34]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    [I-D.ietf-mmusic-rid]
               Thatcher, P., Zanaty, M., Nandakumar, S., Burman, B.,
@@ -1873,12 +1924,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
               (SDP)", draft-lennox-mmusic-sdp-source-selection-05 (work
               in progress), October 2012.
 
-   [I-D.westerlund-avtcore-transport-multiplexing]
-              Westerlund, M. and C. Perkins, "Multiplexing Multiple RTP
-              Sessions onto a Single Lower-Layer Transport", draft-
-              westerlund-avtcore-transport-multiplexing-07 (work in
-              progress), October 2013.
-
    [RFC2198]  Perkins, C., Kouvelas, I., Hodson, O., Hardman, V.,
               Handley, M., Bolot, J., Vega-Garcia, A., and S. Fosse-
               Parisis, "RTP Payload for Redundant Audio Data", RFC 2198,
@@ -1889,22 +1934,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
               Jamin, "Resource ReSerVation Protocol (RSVP) -- Version 1
               Functional Specification", RFC 2205, DOI 10.17487/RFC2205,
               September 1997, <https://www.rfc-editor.org/info/rfc2205>.
-
-   [RFC2326]  Schulzrinne, H., Rao, A., and R. Lanphier, "Real Time
-              Streaming Protocol (RTSP)", RFC 2326,
-              DOI 10.17487/RFC2326, April 1998,
-              <https://www.rfc-editor.org/info/rfc2326>.
-
-
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 34]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
 
    [RFC2474]  Nichols, K., Blake, S., Baker, F., and D. Black,
               "Definition of the Differentiated Services Field (DS
@@ -1921,6 +1950,17 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
               Schooler, "SIP: Session Initiation Protocol", RFC 3261,
               DOI 10.17487/RFC3261, June 2002,
               <https://www.rfc-editor.org/info/rfc3261>.
+
+
+
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 35]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    [RFC3264]  Rosenberg, J. and H. Schulzrinne, "An Offer/Answer Model
               with Session Description Protocol (SDP)", RFC 3264,
@@ -1954,14 +1994,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
               Description Protocol", RFC 4566, DOI 10.17487/RFC4566,
               July 2006, <https://www.rfc-editor.org/info/rfc4566>.
 
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 35]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    [RFC4568]  Andreasen, F., Baugher, M., and D. Wing, "Session
               Description Protocol (SDP) Security Descriptions for Media
               Streams", RFC 4568, DOI 10.17487/RFC4568, July 2006,
@@ -1976,6 +2008,15 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
               "Codec Control Messages in the RTP Audio-Visual Profile
               with Feedback (AVPF)", RFC 5104, DOI 10.17487/RFC5104,
               February 2008, <https://www.rfc-editor.org/info/rfc5104>.
+
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 36]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
 
    [RFC5109]  Li, A., Ed., "RTP Payload Format for Generic Forward Error
               Correction", RFC 5109, DOI 10.17487/RFC5109, December
@@ -2007,28 +2048,15 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
               DOI 10.17487/RFC6190, May 2011,
               <https://www.rfc-editor.org/info/rfc6190>.
 
-
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 36]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    [RFC6465]  Ivov, E., Ed., Marocco, E., Ed., and J. Lennox, "A Real-
               time Transport Protocol (RTP) Header Extension for Mixer-
               to-Client Audio Level Indication", RFC 6465,
               DOI 10.17487/RFC6465, December 2011,
               <https://www.rfc-editor.org/info/rfc6465>.
 
-   [RFC7656]  Lennox, J., Gross, K., Nandakumar, S., Salgueiro, G., and
-              B. Burman, Ed., "A Taxonomy of Semantics and Mechanisms
-              for Real-Time Transport Protocol (RTP) Sources", RFC 7656,
-              DOI 10.17487/RFC7656, November 2015,
-              <https://www.rfc-editor.org/info/rfc7656>.
+   [RFC7201]  Westerlund, M. and C. Perkins, "Options for Securing RTP
+              Sessions", RFC 7201, DOI 10.17487/RFC7201, April 2014,
+              <https://www.rfc-editor.org/info/rfc7201>.
 
    [RFC7657]  Black, D., Ed. and P. Jones, "Differentiated Services
               (Diffserv) and Real-Time Communication", RFC 7657,
@@ -2038,6 +2066,18 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    [RFC7667]  Westerlund, M. and S. Wenger, "RTP Topologies", RFC 7667,
               DOI 10.17487/RFC7667, November 2015,
               <https://www.rfc-editor.org/info/rfc7667>.
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 37]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
+   [RFC7826]  Schulzrinne, H., Rao, A., Lanphier, R., Westerlund, M.,
+              and M. Stiemerling, Ed., "Real-Time Streaming Protocol
+              Version 2.0", RFC 7826, DOI 10.17487/RFC7826, December
+              2016, <https://www.rfc-editor.org/info/rfc7826>.
 
    [RFC8088]  Westerlund, M., "How to Write an RTP Payload Format",
               RFC 8088, DOI 10.17487/RFC8088, May 2017,
@@ -2066,14 +2106,6 @@ Appendix A.  Dismissing Payload Type Multiplexing
         streams are forced to use the same rate.  When this is not
         possible, Payload Type multiplexing cannot be used.
 
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 37]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    2.   Many RTP payload formats can fragment a media object over
         multiple packets, like parts of a video frame.  These payload
         formats need to determine the order of the fragments to
@@ -2090,6 +2122,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
         of a repair mechanism within a single media context.  The text/
         T140 payload format [RFC4103] is an example of such a format.
         These formats will need a sequence numbering abstraction
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 38]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
         function between RTP and the individual media stream before
         being used with Payload Type multiplexing.
 
@@ -2121,15 +2161,6 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
         Accordingly, using Payload Type multiplexing limits the number
         of streams that can be multiplexed and does not scale.  This
         limitation is exacerbated if one uses solutions like RTP and
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 38]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
         RTCP multiplexing [RFC5761] where a number of payload types are
         blocked due to the overlap between RTP and RTCP.
 
@@ -2144,8 +2175,17 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
         per Payload Type level and would require re-definition in that
         context.
 
-   12.  A legacy endpoint that doesn't understand the indication that
+   12.  A legacy endpoint that does not understand the indication that
         different RTP payload types are different media streams might be
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 39]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
         slightly confused by the large amount of possibly overlapping or
         identically defined RTP Payload Types.
 
@@ -2165,7 +2205,7 @@ B.1.  Signalling Aspects
    There exist various signalling solutions for establishing RTP
    sessions.  Many are SDP [RFC4566] based, however SDP functionality is
    also dependent on the signalling protocols carrying the SDP.  Where
-   RTSP [RFC2326] and SAP [RFC2974] both use SDP in a declarative
+   RTSP [RFC7826] and SAP [RFC2974] both use SDP in a declarative
    fashion, while SIP [RFC3261] uses SDP with the additional definition
    of Offer/Answer [RFC3264].  The impact on signalling and especially
    SDP needs to be considered as it can greatly affect how to deploy a
@@ -2178,14 +2218,6 @@ B.1.1.  Session Oriented Properties
    There are a number of things that are signalled on a session level/
    media description but those are not necessarily strictly bound to an
    RTP session and could be of interest to signal specifically for a
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 39]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    particular media stream (SSRC) within the session.  The following
    properties have been identified as being potentially useful to signal
    not only on RTP session level:
@@ -2202,6 +2234,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    limitations.  However, if the aim is to deploy an solution using
    additional SSRCs that contains several sets of media streams with
    different properties (encoding/packetization parameter, bit-rate,
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 40]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    etc.), putting each set in a different RTP session would directly
    enable negotiation of the parameters for each set.  If insisting on
    additional SSRC only, a number of signalling extensions are needed to
@@ -2234,14 +2274,6 @@ B.1.3.  Signalling Media Stream Usage
    Media streams being transported in RTP has some particular usage in
    an RTP application.  This usage of the media stream is in many
    applications so far implicitly signalled.  For example, an
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 40]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
-
-
    application might choose to take all incoming audio RTP streams, mix
    them and play them out.  However, in more advanced applications that
    use multiple media streams there will be more than a single usage or
@@ -2258,6 +2290,14 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
    If all media streams in an RTP session are to be treated in the same
    way, identifying the session is enough.  If SSRCs in a session are to
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 41]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
+
+
    be treated differently, signalling needs to identify both the session
    and the SSRC.
 
@@ -2271,7 +2311,7 @@ Authors' Addresses
 
    Magnus Westerlund
    Ericsson
-   Farogatan 6
+   Torshamsgatan 23
    SE-164 80 Kista
    Sweden
 
@@ -2287,15 +2327,6 @@ Authors' Addresses
 
    Phone: +46 10 714 13 11
    Email: bo.burman@ericsson.com
-
-
-
-
-
-
-Westerlund, et al.         Expires May 3, 2018                 [Page 41]
-
-Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
    Colin Perkins
@@ -2314,6 +2345,13 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
    Sweden
 
    Email: harald@alvestrand.no
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 42]
+
+Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
    Roni Even
@@ -2349,4 +2387,22 @@ Internet-Draft     Guidelines for Multiplexing in RTP       October 2017
 
 
 
-Westerlund, et al.         Expires May 3, 2018                 [Page 42]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Westerlund, et al.         Expires May 4, 2018                 [Page 43]
