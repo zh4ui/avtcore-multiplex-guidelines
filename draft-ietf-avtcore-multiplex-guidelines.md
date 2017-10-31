@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-avtcore-multiplex-guidelines-04
+docname: draft-ietf-avtcore-multiplex-guidelines-05
 cat: info
 pi:
   toc: 'yes'
@@ -22,7 +22,7 @@ author:
 - ins: M. Westerlund
   name: Magnus Westerlund
   org: Ericsson
-  street: Farogatan 6
+  street: Torshamsgatan 23
   city: SE-164 80 Kista
   country: Sweden
   phone: "+46 10 714 82 87"
@@ -66,10 +66,10 @@ author:
 
 normative:
   RFC3550:
+  RFC7656:
 informative:
   RFC2198:
   RFC2205:
-  RFC2326:
   RFC2474:
   RFC2974:
   RFC3261:
@@ -83,27 +83,25 @@ informative:
   RFC4568:
   RFC4588:
   RFC5104:
+  RFC5109:
   RFC5576:
   RFC5761:
   RFC5764:
   RFC5888:
   RFC6190:
   RFC6465:
-  RFC7656:
+  RFC7201:
+  RFC7657:
+  RFC7667:
+  RFC7826:
   RFC8088:
   RFC8108:
   I-D.ietf-avt-srtp-ekt:
   I-D.ietf-mmusic-sdp-bundle-negotiation:
   I-D.lennox-mmusic-sdp-source-selection:
-  I-D.westerlund-avtcore-transport-multiplexing:
-  I-D.ietf-avtcore-rtp-security-options:
   I-D.ietf-avtcore-multi-media-rtp-session:
   I-D.ietf-mmusic-msid:
   I-D.ietf-mmusic-rid:
-  RFC7667:
-  RFC7657:
-  RFC7657:
-  RFC5109:
   ALF:
     title: Architectural Considerations for a New Generation of Protocols
     author:
@@ -112,7 +110,7 @@ informative:
     - ins: D. Tennenhouse
     date: 1990-09
     seriesinfo:
-      SIGCOMM Symposium on         Communications Architectures and Protocols: "(Philadelphia,
+      SIGCOMM Symposium on Communications Architectures and Protocols: "(Philadelphia,
         Pennsylvania), pp. 200--208, IEEE Computer Communications Review, Vol. 20(4)"
 
 --- abstract
@@ -143,7 +141,7 @@ encoding or packetization of the media. By using multiple RTP
 sessions, sets of media streams can be structured for efficient
 processing or identification. Thus the question for any RTP
 application designer is how to best use the RTP session, the SSRC and
-the payload type to meet the application's needs.
+the payload type to meet the application\'s needs.
 
 There have been increased interest in more advanced usage of RTP, for
 example, multiple streams can occur when a single endpoint have
@@ -239,7 +237,7 @@ mentioned only as examples in order to describe the RTP issues more
 precisely.
 
 This document assumes the applications will use RTCP. While there
-are such applications that don't send RTCP, they do not conform to the
+are such applications that don\'t send RTCP, they do not conform to the
 RTP specification, and thus can be regarded as reusing the RTP packet
 format but not implementing the RTP protocol.
 
@@ -336,8 +334,8 @@ participants, then those participants are in a single RTP session. A
 participant can become aware of a synchronisation source identifier by
 receiving an RTP packet containing it in the SSRC field or CSRC list,
 by receiving an RTCP packet mentioning it in an SSRC field, or through
-signalling (e.g., the SDP "a=ssrc:" attribute). Thus, the scope of an
-RTP session is determined by the participants' network interconnection
+signalling (e.g., the SDP \"a=ssrc:\" attribute). Thus, the scope of an
+RTP session is determined by the participants\' network interconnection
 topology, in combination with RTP and RTCP forwarding strategies
 deployed by the endpoints and any middleboxes, and by the
 signalling. 
@@ -353,9 +351,9 @@ different contexts. For example, when running RTP on top of UDP/IP, an
 RTP endpoint can identify and delimit an RTP Session from other RTP
 Sessions using the UDP source and destination IP addresses and UDP
 port numbers. Another example is when using SDP grouping framework
-{{RFC5888}} which uses an identifier per "m="-line; if
-there is a one-to-one mapping between "m="-lines and RTP sessions,
-that grouping framework identifier will identify an RTP Session. {{I-D.ietf-mmusic-sdp-bundle-negotiation}} extends the "m-"-line for bundled media, which adds complexity to demultiplexing media stream. Section 10.2 of {{I-D.ietf-mmusic-sdp-bundle-negotiation}} provides information about how RTP/RTCP streams are associated with SDP media description.
+{{RFC5888}} which uses an identifier per \"m=\"-line; if
+there is a one-to-one mapping between \"m=\"-lines and RTP sessions,
+that grouping framework identifier will identify an RTP Session. {{I-D.ietf-mmusic-sdp-bundle-negotiation}} extends the \"m-\"-line for bundled media, which adds complexity to demultiplexing media stream. Section 10.2 of {{I-D.ietf-mmusic-sdp-bundle-negotiation}} provides information about how RTP/RTCP streams are associated with SDP media description.
 
 RTP sessions are globally unique, but their identity can only be
 determined by the communication context at an endpoint of the session,
@@ -384,7 +382,7 @@ source or sink.
 The synchronisation Source identifier is a 32-bit unsigned integer.
 It is present in every RTP and RTCP packet header, and in the payload
 of some RTCP packet types. It can also be present in SDP signalling.
-Unless pre-signalled using the SDP "a=ssrc:" attribute {{RFC5576}},
+Unless pre-signalled using the SDP \"a=ssrc:\" attribute {{RFC5576}},
 the synchronisation source identifier is chosen at
 random. It is not dependent on the network address of the endpoint,
 and is intended to be unique within an RTP session. Synchronisation
@@ -406,7 +404,7 @@ synchronisation sources {{RFC5576}}.
 > In some cases, the same SSRC Identifier value is used to relate
 > streams in two different RTP Sessions, such as in Multi-Session
 > Transmission of [scalable video](#RFC6190). This
-> is NOT RECOMMENDED since there is no guarantee of uniqueness in
+> is to be avoided since there is no guarantee of uniqueness in
 > SSRC values across RTP sessions.
 
 
@@ -421,7 +419,7 @@ An SSRC identifier is used by different type of sources as well as
 sinks:
 
 Real Media Source:
-: Connected to a "physical" media
+: Connected to a \"physical\" media
   source, for example a camera or microphone.
 
 
@@ -488,9 +486,9 @@ The combination therefore identifies a specific Media Stream encoding
 format. The format definition can be taken from {{RFC3551}} for
 statically allocated payload types, but ought
 to be explicitly defined in signalling, such as SDP, both for static
-and dynamic Payload Types. The term "format" here includes whatever
+and dynamic Payload Types. The term \"format\" here includes whatever
 can be described by out-of-band signalling means. In SDP, the term
-"format" includes media type, RTP timestamp sampling rate, codec,
+\"format\" includes media type, RTP timestamp sampling rate, codec,
 codec configuration, payload format configurations, and various
 robustness mechanisms such as [redundant encodings](#RFC2198).
 
@@ -498,7 +496,7 @@ The payload type is scoped by sending endpoint within an RTP Session.
 All synchronisation sources sent from a single endpoint
 share the same payload types definitions. The RTP Payload Type is
 designed such that only a single Payload Type is valid at any time
-instant in the RTP source's RTP timestamp time line, effectively
+instant in the RTP source\'s RTP timestamp time line, effectively
 time-multiplexing different Payload Types if any change occurs. The
 payload type used can change on a per-packet basis for an SSRC, for
 example a speech codec making use of generic comfort noise
@@ -520,12 +518,12 @@ rendering context can be defined by the signalling, and the RTP
 payload type number is sometimes used to associate an RTP media stream
 with the signalling. This association is possible provided unique RTP
 payload type numbers are used in each context. For example, an RTP
-media stream can be associated with an SDP "m=" line by comparing the
+media stream can be associated with an SDP \"m=\" line by comparing the
 RTP payload type numbers used by the media stream with payload types
-signalled in the "a=rtpmap:" lines in the media sections of the SDP.
+signalled in the \"a=rtpmap:\" lines in the media sections of the SDP.
 If RTP media streams are being associated with signalling contexts
 based on the RTP payload type, then the assignment of RTP payload type
-numbers MUST be unique across signalling contexts; if the same RTP
+numbers needs to be unique across signalling contexts; if the same RTP
 payload format configuration is used in multiple contexts, then a
 different RTP payload type number has to be assigned in each context
 to ensure uniqueness. If the RTP payload type number is not being used
@@ -583,7 +581,7 @@ for various reasons:
 In many situations this is resolved by the inclusion of a
 translator between the two peers, as described by Topo-PtP-Translator
 in {{RFC7667}}. The
-translator's main purpose is to make the peer look to the other peer
+translator\'s main purpose is to make the peer look to the other peer
 like something it is compatible with. There can also be other reasons
 than compatibility to insert a translator in the form of a middlebox
 or gateway, for example a need to monitor the media streams. If the
@@ -608,10 +606,10 @@ tries to discuss the various considerations needed.
 ### The RTP Specification {#sec-rtp-spec}
 
 RFC 3550 contains some recommendations and a bullet list with 5
-arguments for different aspects of RTP multiplexing. Let's review
+arguments for different aspects of RTP multiplexing. Let\'s review
 Section 5.2 of {{RFC3550}}, reproduced below:
 
-"For efficient protocol processing, the number of multiplexing
+\"For efficient protocol processing, the number of multiplexing
 points should be minimised, as described in the
 [integrated layer processing design principle](#ALF). In
 RTP, multiplexing is provided by the destination transport address
@@ -659,14 +657,14 @@ last two.
 
 On the other hand, multiplexing multiple related sources of the
 same medium in one RTP session using different SSRC values is the
-norm for multicast sessions. The problems listed above don't apply:
+norm for multicast sessions. The problems listed above don\'t apply:
 an RTP mixer can combine multiple audio sources, for example, and
 the same treatment is applicable for all of them. It might also be
 appropriate to multiplex streams of the same medium using different
 SSRC values in other scenarios where the last two problems do not
-apply."
+apply.\"
 
-Let's consider one argument at a time. The first is an argument
+Let\'s consider one argument at a time. The first is an argument
 for using different SSRC for each individual media stream, which is
 very applicable.
 
@@ -684,7 +682,7 @@ logic in order to handle streams anyway; the separation of streams
 according to stream type is just another piece of application logic,
 which might or might not be appropriate for a particular
 application. A type of application that can mix different media
-sources "blindly" is the audio only "telephone" bridge; most other
+sources \"blindly\" is the audio only \"telephone\" bridge; most other
 type of application needs application-specific logic to perform the
 mix correctly.
 
@@ -694,15 +692,15 @@ into aspects of implementation, like decomposed endpoints where
 different processes or inter-connected devices handle different
 aspects of the whole multi-media session.
 
-A summary of RFC 3550's view on multiplexing is to use unique
+A summary of RFC 3550\'s view on multiplexing is to use unique
 SSRCs for anything that is its own media/packet stream, and to use
-different RTP sessions for media streams that don't share a media
+different RTP sessions for media streams that don\'t share a media
 type. This document supports the first point; it is very valid. The
 later is one thing which needs to be further discussed, as imposing a single solution on all usages of RTP is inappropriate. 
 [Multiple Media Types in an RTP Session specification](#I-D.ietf-avtcore-multi-media-rtp-session) provides a
 detailed analysis of the potential issues in having multiple media
 types in the same RTP session. This document tries to provide an
-moreover arching consideration regarding the usage of RTP session and
+wider scoped consideration regarding the usage of RTP session and
 considers multiple media types in one RTP session as possible choice
 for the RTP application designer.
 
@@ -712,7 +710,7 @@ Using multiple SSRCs in an RTP session at one endpoint requires
 resolving some unclear aspects of the RTP specification. These could
 potentially lead to some interoperability issues as well as some
 potential significant inefficiencies. These are further discussed in
-["RTP Considerations for Endpoints Sending Multiple Media Streams"](#RFC8108).
+[\"RTP Considerations for Endpoints Sending Multiple Media Streams\"](#RFC8108).
 A application designer needs to consider these issues and the impact
 availability or lack of the optimization in the endpoints has on
 their application.
@@ -755,7 +753,7 @@ SDP MSID grouping:
 
 
 This supports a lot of use cases. All these solutions have
-shortcomings in cases where the session's dynamic properties are
+shortcomings in cases where the session\'s dynamic properties are
 such that it is difficult or resource consuming to keep the list of
 related SSRCs up to date.
 
@@ -814,7 +812,7 @@ In usages involving multicast, having the FEC information on its
 own multicast group allows
 for flexibility. This is especially useful when receivers see very
 heterogeneous packet loss rates. Those receivers that are not seeing
-packet loss don't need to join the multicast group with the FEC
+packet loss don\'t need to join the multicast group with the FEC
 data, and so avoid the overhead of receiving unnecessary FEC
 packets, for example.
 
@@ -825,7 +823,7 @@ packets, for example.
 There are several different kinds of interworking, and this section
 discusses two related ones. The interworking between different
 applications and the implications of potentially different choices of
-usage of RTP's multiplexing points. The second topic relates to what
+usage of RTP\'s multiplexing points. The second topic relates to what
 limitations have to be considered working with some legacy
 applications.
 
@@ -881,16 +879,16 @@ certain tasks that the gateway has to carry out:
   (possibly based on incoming RTCP reports), originating from
   SSRCs controlled by the gateway.
 
-* Handling SSRC collision resolution in each application's RTP
+* Handling SSRC collision resolution in each application\'s RTP
   sessions.
 
 * Signalling, choosing and policing appropriate bit-rates for
   each session.
 
-If either of the applications has any security applied,
-e.g. in the form of SRTP, the gateway needs to be able to decrypt
-incoming packets and re-encrypt them in the other application's
-security context. This is necessary even if all that's needed is a
+For applications that uses any security mechanism,
+e.g. in the form of SRTP, then the gateway needs to be able to decrypt
+incoming packets and re-encrypt them in the other application\'s
+security context. This is necessary even if all that\'s needed is a
 simple remapping of SSRC numbers. If this is done, the gateway also
 needs to be a member of the security contexts of both sides, of
 course.
@@ -916,7 +914,7 @@ security association between the endpoints, unless the gateway is on
 the transport level, and additional complexities in form of the
 decrypt-encrypt cycles needed for each forwarded packet. SRTP, due
 to its keying structure, also requires that each RTP session needs
-different master keys, as use of the same key in two RTP sessions
+different master keys, as use of the same key in two RTP sessions for some ciphers
 can result in two-time pads that completely breaks the
 confidentiality of the packets.
 
@@ -934,7 +932,7 @@ and the RTP mixer, meaning that the mixer functions as an
 RTP-terminating gateway.
 
 When establishing RTP sessions that can contain endpoints that
-aren't updated to handle multiple streams following these
+aren\'t updated to handle multiple streams following these
 recommendations, a particular application can have issues with
 multiple SSRCs within a single session. These issues include:
 
@@ -950,7 +948,7 @@ multiple SSRCs within a single session. These issues include:
 
 This indicates that gateways attempting to interconnect to this
 class of devices has to make sure that only one media stream of each
-type gets delivered to the endpoint if it's expecting only one, and
+type gets delivered to the endpoint if it\'s expecting only one, and
 that the multiplexing format is what the device expects. It is
 highly unlikely that RTP translator-based interworking can be made
 to function successfully in such a context.
@@ -965,9 +963,9 @@ need to be considered by the implementer.
 ### Quality of Service
 
 When it comes to Quality of Service mechanisms, they are either flow
-based or marking based. [RSVP](#RFC2205) is an example of a flow based
-mechanism, while [Diff-Serv](#RFC2474) is an example of a Marking
-based one. For a marking based scheme, the method of multiplexing will
+based or packet marking based. [RSVP](#RFC2205) is an example of a flow based
+mechanism, while [Diff-Serv](#RFC2474) is an example of a packet marking
+based one. For a packet marking based scheme, the method of multiplexing will
 not affect the possibility to use QoS.
 
 However, for a flow based scheme there is a clear difference
@@ -995,7 +993,7 @@ basis to reach the full functionality.
 
 ### NAT and Firewall Traversal
 
-In today's network there exist a large number of middleboxes. The
+In today\'s network there exist a large number of middleboxes. The
 ones that normally have most impact on RTP are Network Address
 Translators (NAT) and Firewalls (FW).
 
@@ -1043,7 +1041,7 @@ NAT State:
 
 
 NAT Traversal Excess Time:
-: Making the NAT/FW
+: Performing the NAT/FW
   traversal takes a certain amount of time for each flow. It also
   takes time in a phase of communication between accepting to
   communicate and the media path being established which is fairly
@@ -1052,7 +1050,7 @@ NAT Traversal Excess Time:
   specified ICE procedures are: 1.5\*RTT + Ta\*(Additional_Flows-1),
   where Ta is the pacing timer, which ICE specifies to be no
   smaller than 20 ms. That assumes a message in one direction, and
-  then an immediate triggered check back. The reason it isn't
+  then an immediate triggered check back. The reason it isn\'t
   more, is that ICE first finds one candidate pair that works
   prior to attempting to establish multiple flows. Thus, there is
   no extra time until one has found a working candidate pair.
@@ -1088,9 +1086,8 @@ traversal complexities per media stream. This can be compared with
 normally one or two additional transport flows per RTP session when
 using multiple RTP sessions. Additional lower layer transport flows
 will be needed, unless an explicit de-multiplexing layer is added
-between RTP and the transport protocol. A proposal for how to
-multiplex multiple RTP sessions over the same single lower layer
-transport exist in {{I-D.westerlund-avtcore-transport-multiplexing}}.
+between RTP and the transport protocol. At time of writing no such
+mechanism was defined. 
 
 
 ### Multicast {#sec-multicast}
@@ -1113,7 +1110,7 @@ traffic it receives. To have each scalability layer on a different
 multicast group, one RTP session per multicast group is used.
 
 In addition, the transport flow considerations in multicast are a
-bit different from unicast; NATs are not useful in the multicast
+bit different from unicast; NATs with port translation are not useful in the multicast
 environment, meaning that the entire port range of each multicast
 address is available for distinguishing between RTP sessions.
 
@@ -1152,19 +1149,7 @@ Security solutions for this type of group communications are also
 challenging. First of all the key-management and the security protocol
 needs to support group communication. Source authentication requires
 special solutions. For more discussion on this please review
-[Options for Securing RTP Sessions](#I-D.ietf-avtcore-rtp-security-options).
-
-For applications that don't need flow based QoS and like to save ports
-and NAT/FW traversal costs and where usage of multiple media types in
-one RTP session is not suitable, there is a proposal for how to
-achieve
-[multiplexing of multiple RTP sessions over the same lower layer transport](#I-D.westerlund-avtcore-transport-multiplexing).
-Using such a solution would allow Multiple RTP session without most
-of the perceived downsides of Multiple RTP sessions creating a need
-for additional transport flows, but this solution would require
-support from all functions that handle RTP packets, including
-firewalls.
-
+[Options for Securing RTP Sessions](#RFC7201).
 
 
 ## Security and Key Management Considerations {#sec-security-aspects}
@@ -1174,13 +1159,13 @@ are few security issues that are relevant to the choice of having one
 RTP session or multiple RTP sessions. However, there are a few aspects
 of multiparty sessions that might warrant consideration. For general
 information of possible methods of securing RTP, please review
-[RTP Security Options](#I-D.ietf-avtcore-rtp-security-options).
+[RTP Security Options](#RFC7201).
 
 ### Security Context Scope
 
 When using [SRTP](#RFC3711) the security
 context scope is important and can be a necessary differentiation in
-some applications. As SRTP's crypto suites (so far) are built around
+some applications. As SRTP\'s crypto suites (so far) are built around
 symmetric keys, the receiver will need to have the same key as the
 sender. This results in that no one in a multi-party session can be
 certain that a received packet really was sent by the claimed sender
@@ -1198,7 +1183,7 @@ for differentiation. Take for example a scalable layer or a high
 quality simulcast version which only premium users are allowed to
 access. The mechanism preventing a receiver from getting the high
 quality stream can be based on the stream being encrypted with a key
-that user can't access without paying premium, having the
+that user can\'t access without paying premium, having the
 key-management limit access to the key.
 
 [SRTP](#RFC3711) has no special functions for dealing with different
@@ -1271,7 +1256,7 @@ The Pros:
 
 1. The signalling has good possibilities to negotiate and describe
   the exact formats and bit-rates for each media stream, especially
-  using today's tools in SDP.
+  using today\'s tools in SDP.
 
 1. It does not matter if usage or purpose of the media stream is
   signalled on media stream level or session level as there is no
@@ -1309,7 +1294,7 @@ The Cons:
   media streams.
 
 1. The port consumption might become a problem for centralised
-  services, where the central node's port consumption grows rapidly
+  services, where the central node\'s port consumption grows rapidly
   with the number of sessions.
 
 1. For applications where the media streams are highly dynamic in
@@ -1318,7 +1303,7 @@ The Cons:
   additional RTP sessions can also arise.
 
 1. Cross session RTCP requests might be needed, and the fact that
-  they're impossible can cause issues.
+  they\'re impossible can cause issues.
 
 1. If the same SSRC value is reused in multiple RTP sessions
   rather than being randomly chosen, interworking with applications
@@ -1397,7 +1382,7 @@ The Cons:
   handling multiple SSRC per endpoint.
 
 1. Will not be able to control security association for sets of
-  media streams within the same media type with today's
+  media streams within the same media type with today\'s
   key-management mechanisms, unless these are split into different
   RTP sessions.
 
@@ -1424,7 +1409,7 @@ in this direction is that the RTP application needs separation of the
 media streams due to their usage. Some typical reasons for going to
 this archetype are scalability over multicast, simulcast, need for
 extended QoS prioritisation of media streams due to their usage in the
-application, or the need for fine-grained signalling using today's
+application, or the need for fine-grained signalling using today\'s
 tools.
 
 The Pros:
@@ -1433,7 +1418,7 @@ The Pros:
   individually select which RTP sessions they want to participate
   in, assuming each RTP session has its own multicast group.
 
-1. Indication of the application's usage of the media stream,
+1. Indication of the application\'s usage of the media stream,
   where multiple different usages exist.
 
 1. Less need for SSRC specific explicit signalling for each media
@@ -1479,7 +1464,7 @@ The Cons:
 
 1. If the applications need finer control than on media type level
   over which session participants that are included in different
-  sets of security associations, most of today's key-management will
+  sets of security associations, most of today\'s key-management will
   have difficulties establishing such a session.
 
 
@@ -1517,7 +1502,7 @@ The Pros:
   processing can still be supported despite single session.
 
 1. Can handle dynamic allocations of media streams well on an RTP
-  level. Depends on the application's needs for explicit indication
+  level. Depends on the application\'s needs for explicit indication
   of the stream usage and how timely that can be signalled.
 
 1. Minimal overhead for security association establishment.
@@ -1540,7 +1525,7 @@ The Cons:
 1. Flow based QoS cannot provide separate treatment to some media
   streams compared to others in the single RTP session.
 
-1. If there is significant asymmetry between the media streams'
+1. If there is significant asymmetry between the media streams\'
   RTCP reporting needs, there are some challenges in configuration
   and usage to avoid wasting RTCP reporting on the media stream that
   does not need that frequent reporting.
@@ -1566,16 +1551,16 @@ The Cons:
 ## Summary
 
 There are some clear relations between these archetypes. Both the
-"single SSRC per RTP session" and the "multiple media types in one
-session" are cases which require full explicit signalling of the media
+\"single SSRC per RTP session\" and the \"multiple media types in one
+session\" are cases which require full explicit signalling of the media
 stream relations. However, they operate on two different levels where
 the first primarily enables session level binding, and the second
 needs to do it all on SSRC level. From another perspective, the two
 solutions are the two extreme points when it comes to number of RTP
 sessions needed.
 
-The two other archetypes "Multiple SSRCs of the Same Media Type"
-and "Multiple Sessions for one Media Type" are examples of two other
+The two other archetypes \"Multiple SSRCs of the Same Media Type\"
+and \"Multiple Sessions for one Media Type\" are examples of two other
 cases that first of all allows for some implicit mapping of the role
 or usage of the media streams based on which RTP session they appear
 in. It thus potentially allows for less signalling and in particular
@@ -1607,7 +1592,7 @@ Do not Require the same SSRC across Sessions:
   establishes the RTP session(s).
 
 
-Use additional SSRCs additional Media Sources:
+Use additional SSRCs for additional Media Sources:
 : In
   the cases where an RTP endpoint needs to transmit additional media
   streams of the same media type in the application, with the same
@@ -1655,6 +1640,35 @@ Transport Support Extensions:
   mechanisms without concerning themselves with which of the
   multiplexing choices a particular solution supports.
 
+ 
+# Open Issues
+
+There are currently some issues that needs to be resolved before 
+this document is ready to be published:
+
+1. Use of RFC 2119 language is section on SSRC (3.2.2)
+
+1. Better align source and sink terminolgy with Taxonomy (Section 3.2.2)
+
+1. Section on Binding Related Sources (Section 3.4.3) needs more text on 
+   usage of the RID and other SDES based mechanisms created.
+   
+1. Does the MSID text need to be updated and clarified based on the evoulsion of 
+   MSID since previous version. Section 3.4.3.
+  
+1. Section 4.1.2 (RTP Translator Interworking) needs to be updated. It is not
+   obvious that it is a natural requirement that the same multiplexing is used. 
+   This needs better discussion. 
+   
+1. Refernce to Ta for ICE being 20 ms will need to be updated due to ICE update.
+
+1. In Section 4.3.2 (Key Management for Multi-party session) the reference to 
+   EKT needs to be updated, question is if draft-ietf-perc-ekt-diet is appropriate
+   here?
+   
+1. Can we find a more approriate term than archetypes?
+
+1. 
 
 # IANA Considerations {#IANA}
 
@@ -1676,7 +1690,7 @@ Multiple RTP session in {{sec-security-aspects}}.
 
 This section documents a number of reasons why using the payload type
 as a multiplexing point for most things related to multiple streams is
-unsuitable. If one attempts to use Payload type multiplexing beyond it's
+unsuitable. If one attempts to use Payload type multiplexing beyond it\'s
 defined usage, that has well known negative effects on RTP. To use
 Payload type as the single discriminator for multiple streams implies
 that all the different media streams are being sent with the same SSRC,
@@ -1751,7 +1765,7 @@ effects:
   per Payload Type level and would require re-definition in that
   context.
 
-1. A legacy endpoint that doesn't understand the indication that
+1. A legacy endpoint that does not understand the indication that
   different RTP payload types are different media streams might be
   slightly confused by the large amount of possibly overlapping or
   identically defined RTP Payload Types.
@@ -1772,7 +1786,7 @@ RTP.
 There exist various signalling solutions for establishing RTP
 sessions. Many are [SDP](#RFC4566) based, however SDP functionality is
 also dependent on the signalling protocols carrying the
-SDP. Where [RTSP](#RFC2326) and [SAP](#RFC2974) both use SDP in a
+SDP. Where [RTSP](#RFC7826) and [SAP](#RFC2974) both use SDP in a
 declarative fashion, while [SIP](#RFC3261) uses SDP with the
 additional definition of [Offer/Answer](#RFC3264). The impact on
 signalling and especially SDP needs to be considered as it can greatly
@@ -1798,7 +1812,7 @@ potentially useful to signal not only on RTP session level:
   to know before packet arrival).
 
 
-Some of these issues are clearly SDP's problem rather than RTP
+Some of these issues are clearly SDP\'s problem rather than RTP
 limitations. However, if the aim is to deploy an solution using
 additional SSRCs that contains several sets of media streams with
 different properties (encoding/packetization parameter, bit-rate,
@@ -1807,7 +1821,7 @@ enable negotiation of the parameters for each set. If insisting on
 additional SSRC only, a number of signalling extensions are needed
 to clarify that there are multiple sets of media streams with
 different properties and that they need in fact be kept different,
-since a single set will not satisfy the application's
+since a single set will not satisfy the application\'s
 requirements.
 
 For some parameters, such as resolution and framerate, a
